@@ -1,11 +1,11 @@
-// Package yagh exposes the IntMap data structure which is a specialized
-// implementation of a priority queue based on a heap.
+// Package yagh exposes the IntMap[C] data structure, a priority map that orders
+// integers from 0 to N-1 by non-decreasing cost of type `C`.
 //
-// This implementation is optimized for scenarios where:
-//  1. the heap is intended to be long-lived, undergoing numerous mutations
-//     throughout its lifetime,
-//  2. it employs integer keys that range from 0 to N-1, where N is the total
-//     capacity of the heap.
+// Data structure `IntMap[C]` is tailored for use cases where:
+//   - The elements to be inserted in the map are known in advance and can be
+//     identified from 0 to N-1.
+//   - The map is meant to experience an arbitrarily large number of mutations
+//     (including random access updates of its elements) over its lifetime.
 //
 // In particular, this implementation aims to minimize memory allocations and
 // avoid creating objects that would ultimately have to garbage collected.
@@ -46,12 +46,14 @@ func (h *IntMap[C]) Size() int {
 	return h.size
 }
 
-// Min returns the element with the smallest cost.
-func (h *IntMap[C]) Min() *Entry[C] {
+// Min returns the entry with the smallest cost. The second returned value (ok)
+// is a bool that indicates whether a valid entry was found. If the map is
+// empty, it returns false, along with a zero value for the entry.
+func (h *IntMap[C]) Min() (Entry[C], bool) {
 	if h.size == 0 {
-		return nil
+		return Entry[C]{}, false
 	}
-	return &h.entries[1]
+	return h.entries[1], true
 }
 
 // Put inserts a new element in the map or updates its cost (and position) if
@@ -74,10 +76,12 @@ func (h *IntMap[C]) Put(elem int, Cost C) bool {
 	return true
 }
 
-// Pop returns and removes the first element in the heap.
-func (h *IntMap[C]) Pop() *Entry[C] {
+// Pop returns and removes the entry with the smallest cost. The second returned
+// value (ok) is a bool that indicates whether a valid entry was found. If the
+// map is empty, it returns false, along with a zero value for the entry.
+func (h *IntMap[C]) Pop() (Entry[C], bool) {
 	if h.size == 0 {
-		return nil
+		return Entry[C]{}, false
 	}
 	e := h.entries[1]
 	l := h.entries[h.size]
@@ -86,7 +90,7 @@ func (h *IntMap[C]) Pop() *Entry[C] {
 		h.entries[1] = l
 		h.bubbleDown(1)
 	}
-	return &e
+	return e, true
 }
 
 func (h *IntMap[C]) String() string {

@@ -42,7 +42,7 @@ func ExampleIntMap_Pop() {
 	m.Put(3, 0.4)
 
 	for m.Size() > 0 {
-		e := m.Pop()
+		e, _ := m.Pop()
 		fmt.Printf("%d:%v\n", e.Elem, e.Cost)
 	}
 
@@ -62,7 +62,7 @@ func ExampleIntMap_Min() {
 	m.Put(3, 0.3)
 	m.Put(4, 0.4)
 
-	e := m.Min()
+	e, _ := m.Min()
 	fmt.Printf("%d:%v\n", e.Elem, e.Cost)
 
 	// Output:
@@ -84,7 +84,7 @@ func ExampleIntMap_Put() {
 	m.Put(2, 0.02)
 
 	for m.Size() > 0 {
-		e := m.Pop()
+		e, _ := m.Pop()
 		fmt.Printf("%d:%v\n", e.Elem, e.Cost)
 	}
 

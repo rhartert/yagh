@@ -13,7 +13,7 @@ Data structure `IntMap[C]` is tailored for use cases where:
 - The map is meant to experience an arbitrarily large number of mutations 
   (including random access updates of its elements) over its lifetime.
 
-It offers time complexity comparable to traditional heaps.
+Its operations have comparable time complexities to traditional heaps.
 
 ## O(1) Mallocs Complexity 
 

@@ -1,7 +1,7 @@
 // Package yagh exposes the IntMap[C] data structure, a priority map that orders
 // integers from 0 to N-1 by non-decreasing cost of type `C`.
 //
-// Data structure `IntMap[C]` is tailored for use cases where:
+// Data structure IntMap is tailored for use cases where:
 //   - The elements to be inserted in the map are known in advance and can be
 //     identified from 0 to N-1.
 //   - The map is meant to experience an arbitrarily large number of mutations

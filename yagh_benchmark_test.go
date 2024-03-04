@@ -13,8 +13,8 @@ type entry struct {
 	cost float64
 }
 
-// goHeap is a slice of entries that implements heap.Interface used as a
-// baseline to evaluate the performance of IntMap.
+// goHeap is a slice of entries that implements heap.Interface, and is used
+// as baseline to evaluate the performance of IntMap.
 type goHeap []entry
 
 func (h goHeap) Len() int { return len(h) }

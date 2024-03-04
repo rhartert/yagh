@@ -1,5 +1,7 @@
 # Yet Another Go Heap (YAGH)
 
+[![Go Reference](https://pkg.go.dev/badge/github.com/rhartert/yagh.svg)](https://pkg.go.dev/github.com/rhartert/yagh)
+
 YAGH is a small Go package that provides its clients with the `IntMap[C]` data 
 structure, a priority map that orders integers from 0 to N-1 by non-decreasing 
 cost of type `C`. 
@@ -16,7 +18,7 @@ It offers time complexity comparable to traditional heaps.
 ## O(1) Mallocs Complexity 
 
 Data structure `IntMap[C]` is designed for use cases requiring numerous updates 
-and mutations over the heap's lifetime. In particular, the map's constructor 
+and mutations over the map's lifetime. In particular, the map's constructor 
 takes care of pre-allocating all the memory necessary to store up to N elements 
 so that no further mallocs are required during the lifetime of the map. 
 
@@ -32,4 +34,5 @@ BenchmarkIntMapSort-8   	     812	   1310105 ns/op	       0 B/op	       0 allocs
 BenchmarkGoHeapSort-8   	     706	   1680950 ns/op	  320000 B/op	   20000 allocs/op
 ```
 
-See `yagh_benchmark_test.go` for more details. 
+See [`yagh_benchmark_test.go`](https://github.com/rhartert/yagh/blob/main/yagh_benchmark_test.go)
+for more details.

@@ -12,6 +12,7 @@ func ExampleNew() {
 	m.Put(3, 0.4)
 
 	fmt.Println(m)
+
 	// Output:
 	// IntMap[2:0.1 1:0.2 4:0.3 3:0.4]
 }
@@ -28,6 +29,7 @@ func ExampleIntMap_Size() {
 	m.Pop()
 
 	fmt.Println(m.Size())
+
 	// Output:
 	// 2
 }
@@ -70,7 +72,6 @@ func ExampleIntMap_Min() {
 }
 
 func ExampleIntMap_Put() {
-
 	m := New[float64](5)
 
 	// Add new elements.
@@ -93,4 +94,22 @@ func ExampleIntMap_Put() {
 	// 2:0.02
 	// 3:0.3
 	// 4:0.4
+}
+
+func ExampleIntMap_Clear() {
+	m := New[float64](5)
+
+	// Add new elements.
+	m.Put(2, 0.1)
+	m.Put(1, 0.2)
+	m.Put(3, 0.3)
+	m.Put(4, 0.4)
+
+	// Remove everything.
+	m.Clear()
+
+	fmt.Println(m.Size())
+
+	// Output:
+	// 0
 }

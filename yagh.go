@@ -93,6 +93,14 @@ func (h *IntMap[C]) Pop() (Entry[C], bool) {
 	return e, true
 }
 
+// Clear removes all the elements contained in the IntMap in O(Size). It is more
+// efficient to call Clear than Pop repeatedly.
+func (h *IntMap[C]) Clear() {
+	for ; h.size > 0; h.size -= 1 {
+		h.positions[h.entries[h.size].Elem] = 0
+	}
+}
+
 func (h *IntMap[C]) String() string {
 	bf := strings.Builder{}
 	bf.WriteString("IntMap[")

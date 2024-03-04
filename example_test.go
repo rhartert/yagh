@@ -73,7 +73,7 @@ func ExampleIntMap_Put() {
 
 	m := New[float64](5)
 
-	// Insert new elements.
+	// Add new elements.
 	m.Put(2, 0.1)
 	m.Put(1, 0.2)
 	m.Put(3, 0.3)

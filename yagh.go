@@ -4,7 +4,7 @@
 // This implementation is optimized for scenarios where:
 //  1. the heap is intended to be long-lived, undergoing numerous mutations
 //     throughout its lifetime,
-//  2. it employs integer Costs that range from 0 to N-1, where N is the total
+//  2. it employs integer keys that range from 0 to N-1, where N is the total
 //     capacity of the heap.
 //
 // In particular, this implementation aims to minimize memory allocations and
@@ -22,7 +22,6 @@ type Entry[C cmp.Ordered] struct {
 	Cost C
 }
 
-// IntMap implements a  sorted map from integers using a heap.
 type IntMap[C cmp.Ordered] struct {
 	size      int
 	positions []int
@@ -55,7 +54,8 @@ func (h *IntMap[C]) Min() *Entry[C] {
 	return &h.entries[1]
 }
 
-// Put insert a new element in the map or update its cost if it already exists.
+// Put inserts a new element in the map or updates its cost (and position) if
+// it already exists.
 func (h *IntMap[C]) Put(elem int, Cost C) bool {
 	if pos := h.positions[elem]; pos != 0 { // already in the heap
 		h.entries[pos].Cost = Cost

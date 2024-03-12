@@ -56,8 +56,9 @@ func (h *IntMap[C]) Min() (Entry[C], bool) {
 	return h.entries[1], true
 }
 
-// Put inserts a new element in the map or updates its cost (and position) if
-// it already exists.
+// Put inserts a new element into the map or updates its cost (and position) if
+// it already exists. It returns true if the element was not previously in the
+// map; otherwise, it returns false.
 func (h *IntMap[C]) Put(elem int, Cost C) bool {
 	if pos := h.positions[elem]; pos != 0 { // already in the heap
 		h.entries[pos].Cost = Cost

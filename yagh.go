@@ -59,10 +59,10 @@ func (h *IntMap[C]) Min() (Entry[C], bool) {
 // Put inserts a new element into the map or updates its cost (and position) if
 // it already exists. It returns true if the element was not previously in the
 // map; otherwise, it returns false.
-func (h *IntMap[C]) Put(elem int, Cost C) bool {
+func (h *IntMap[C]) Put(elem int, cost C) bool {
 	if pos := h.positions[elem]; pos != 0 { // already in the heap
-		h.entries[pos].Cost = Cost
-		if p := pos / 2; p >= 1 && h.entries[p].Cost > Cost {
+		h.entries[pos].Cost = cost
+		if p := pos / 2; p >= 1 && h.entries[p].Cost > cost {
 			h.bubbleUp(pos)
 		} else {
 			h.bubbleDown(pos)
@@ -72,7 +72,7 @@ func (h *IntMap[C]) Put(elem int, Cost C) bool {
 
 	h.size++
 	h.positions[elem] = h.size
-	h.entries[h.size] = Entry[C]{elem, Cost}
+	h.entries[h.size] = Entry[C]{elem, cost}
 	h.bubbleUp(h.size)
 	return true
 }

@@ -1,5 +1,6 @@
 // Package yagh exposes the IntMap[C] data structure, a priority map that orders
-// integers from 0 to N-1 by non-decreasing cost of type `C`.
+// integers from 0 to N-1 by non-decreasing cost of type `C`. In case of ties,
+// the smallest integer wins.
 //
 // Data structure IntMap is tailored for use cases where:
 //   - The elements to be inserted in the map are known in advance and can be
@@ -62,7 +63,7 @@ func (h *IntMap[C]) Min() (Entry[C], bool) {
 func (h *IntMap[C]) Put(elem int, cost C) bool {
 	if pos := h.positions[elem]; pos != 0 { // already in the heap
 		h.entries[pos].Cost = cost
-		if p := pos / 2; p >= 1 && h.entries[p].Cost > cost {
+		if p := pos / 2; p >= 1 && h.less(pos, p) {
 			h.bubbleUp(pos)
 		} else {
 			h.bubbleDown(pos)
@@ -137,7 +138,10 @@ func (h *IntMap[C]) bubbleDown(i int) {
 }
 
 func (h *IntMap[C]) less(i, j int) bool {
-	return h.entries[i].Cost < h.entries[j].Cost
+	if h.entries[i].Cost > h.entries[j].Cost {
+		return false
+	}
+	return h.entries[i].Cost < h.entries[j].Cost || h.entries[i].Elem < h.entries[j].Elem
 }
 
 func (h *IntMap[C]) swap(i, j int) {

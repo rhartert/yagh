@@ -84,12 +84,16 @@ func ExampleIntMap_Put() {
 	m.Put(1, 0.01)
 	m.Put(2, 0.02)
 
+	// Prioritized over elem 1 due to tie-breaking on elem value.
+	m.Put(0, 0.01)
+
 	for m.Size() > 0 {
 		e, _ := m.Pop()
 		fmt.Printf("%d:%v\n", e.Elem, e.Cost)
 	}
 
 	// Output:
+	// 0:0.01
 	// 1:0.01
 	// 2:0.02
 	// 3:0.3

@@ -15,12 +15,13 @@ Data structure `IntMap[C]` is tailored for use cases where:
 
 Its operations have comparable time complexities to traditional heaps.
 
-## O(1) Mallocs Complexity 
+## Garbage Friendly 🌱
 
-Data structure `IntMap[C]` is designed for use cases requiring numerous updates 
-and mutations over the map's lifetime. In particular, the map's constructor 
-takes care of pre-allocating all the memory necessary to store up to N elements 
-so that no further mallocs are required during the lifetime of the map. 
+`IntMap[C]` is designed for scenarios where frequent updates and mutations are
+expected. The map's constructor pre-allocates all necessary memory to store up
+to `N` elements, thus eliminating the need for further memory allocations during 
+its lifetime. This design ensures consistent speed performance, as it minimizes
+variations caused by memory allocation or garbage collection.
 
 ## Benchmark
 

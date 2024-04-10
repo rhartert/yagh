@@ -41,12 +41,12 @@ This should output something similar to this:
 goos: darwin
 goarch: arm64
 pkg: github.com/rhartert/yagh
-BenchmarkIntMapSort-8  1063  1092887 ns/op	0 B/op	     0 allocs/op
-BenchmarkGoHeapSort-8   672	 1802387 ns/op  320001 B/op  20000 allocs/op
+BenchmarkIntMapSort-8  1063  1092887 ns/op  0 B/op       0 allocs/op
+BenchmarkGoHeapSort-8   672  1802387 ns/op  320001 B/op  20000 allocs/op
 ```
 
 On average, YAGH achieves a 1.64x [speed-up] compared to Go's standard heap. 
 Also, note that zero allocs are made in `BenchmarkIntMapSort` (i.e. the heapsort 
 using YAGH). 
 
-[speed-up] https://en.wikipedia.org/wiki/Speedup
+[speed-up]: https://en.wikipedia.org/wiki/Speedup

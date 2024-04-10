@@ -24,15 +24,29 @@ so that no further mallocs are required during the lifetime of the map.
 
 ## Benchmark
 
-Below are the benchmark results obtained by comparing YAGH's `IntMap` 
-implementation with the standard [`container/heap`](https://pkg.go.dev/container/heap) 
-implementation on a heapsort of 10000 random entries. Note that zero allocs are 
-made in `BenchmarkIntMapSort`. 
+We've compared the performance of YAGH's `IntMap` to Go's standard 
+[`container/heap`](https://pkg.go.dev/container/heap) on multiple heapsorts of 
+10000 random entries (see benchmark results below). 
+
+To run the benchmark, simply run the following command from the root of this
+repository:
+
+```bash
+go test -benchmem -bench . 
+```
+
+This should output something similar to this:
 
 ```
-BenchmarkIntMapSort-8   	     812	   1310105 ns/op	       0 B/op	       0 allocs/op
-BenchmarkGoHeapSort-8   	     706	   1680950 ns/op	  320000 B/op	   20000 allocs/op
+goos: darwin
+goarch: arm64
+pkg: github.com/rhartert/yagh
+BenchmarkIntMapSort-8  1063  1092887 ns/op	0 B/op	     0 allocs/op
+BenchmarkGoHeapSort-8   672	 1802387 ns/op  320001 B/op  20000 allocs/op
 ```
 
-See [`yagh_benchmark_test.go`](https://github.com/rhartert/yagh/blob/main/yagh_benchmark_test.go)
-for more details.
+On average, YAGH achieves a 1.64x [speed-up] compared to Go's standard heap. 
+Also, note that zero allocs are made in `BenchmarkIntMapSort` (i.e. the heapsort 
+using YAGH). 
+
+[speed-up] https://en.wikipedia.org/wiki/Speedup

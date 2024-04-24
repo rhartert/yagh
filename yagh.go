@@ -39,11 +39,19 @@ type IntMap[C cmp.Ordered] struct {
 // ensuring that no further memory allocation will be required during the
 // instance's lifetime.
 func New[C cmp.Ordered](n int) *IntMap[C] {
-	return &IntMap[C]{
+	m := &IntMap[C]{
 		size:      0,
 		positions: make([]int, n),
 		entries:   make([]Entry[C], n+1),
 	}
+
+	m.entries[0].Elem = -1 // make it explicit that entries[0] does not exist
+	for i := range m.positions {
+		m.positions[i] = i + 1
+		m.entries[i+1].Elem = i
+	}
+
+	return m
 }
 
 // Size returns the number of elements in the IntMap.
@@ -65,21 +73,24 @@ func (h *IntMap[C]) Min() (Entry[C], bool) {
 // it already exists. It returns true if the element was not previously in the
 // map; otherwise, it returns false.
 func (h *IntMap[C]) Put(elem int, cost C) bool {
-	if pos := h.positions[elem]; pos != 0 { // already in the heap
-		h.entries[pos].Cost = cost
-		if p := pos / 2; p >= 1 && h.less(pos, p) {
-			h.bubbleUp(pos)
-		} else {
-			h.bubbleDown(pos)
-		}
-		return false
+	pos := h.positions[elem]
+	h.entries[pos].Cost = cost
+
+	if h.size < pos { // not in the heap
+		h.size++
+		h.swap(h.size, h.positions[elem])
+		h.bubbleUp(h.size)
+		return true
 	}
 
-	h.size++
-	h.positions[elem] = h.size
-	h.entries[h.size] = Entry[C]{elem, cost}
-	h.bubbleUp(h.size)
-	return true
+	// If the element is already in the heap, change its cost and reposition it
+	// in the heap.
+	if p := pos / 2; p >= 1 && h.less(pos, p) {
+		h.bubbleUp(pos)
+	} else {
+		h.bubbleDown(pos)
+	}
+	return false
 }
 
 // Pop returns and removes the entry with the smallest cost. The second returned
@@ -108,8 +119,7 @@ func (h *IntMap[C]) Clear() {
 
 // Contains returns true if elem is in the map; it returns false otherwise.
 func (h *IntMap[C]) Contains(elem int) bool {
-	p := h.positions[elem]
-	return p != 0 && p <= h.size
+	return h.positions[elem] <= h.size
 }
 
 func (h *IntMap[C]) String() string {

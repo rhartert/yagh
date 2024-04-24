@@ -47,32 +47,34 @@ func TestIntMap_Pop(t *testing.T) {
 }
 
 func TestIntMap_Contains(t *testing.T) {
-	n := 100
+	nOps := 10_000
+	nElems := 100
 	rng := rand.New(rand.NewSource(42))
 
-	// Verify that elements are not in the heap before being added.
-	m := New[float64](n)
-	for elem := 0; elem < 100; elem++ {
-		if m.Contains(elem) {
-			t.Errorf("Contains(%d): want false, got true", elem)
-		}
-		m.Put(elem, rng.Float64())
-		if !m.Contains(elem) {
-			t.Errorf("Contains(%d): want true, got false", elem)
+	set := map[int]bool{}
+	m := New[int](nElems)
+
+	// Apply a random sequence of put and pop.
+	for i := 0; i < nOps; i++ {
+		switch rng.Intn(3) { // 33% chance to pop
+		case 0: // pop
+			e, ok := m.Pop()
+			if ok {
+				set[e.Elem] = false
+			}
+		default: // put
+			elem := rng.Intn(nElems)
+			m.Put(elem, elem)
+			set[elem] = true
 		}
 	}
 
-	// Verify that elements are not in the heap after being removed.
-	for i := 0; i < 100; i++ {
-		next, _ := m.Min()
-		elem := next.Elem
-
-		if !m.Contains(elem) {
-			t.Errorf("Contains(%d): want true, got false", elem)
-		}
-		m.Pop()
-		if m.Contains(elem) {
-			t.Errorf("Contains(%d): want false, got true", elem)
+	// Verify that the map and the set contain the same elements.
+	for elem := 0; elem < nElems; elem++ {
+		want := set[elem]
+		got := m.Contains(elem)
+		if want != got {
+			t.Errorf("Contains(%d): want %v, got %v", elem, want, got)
 		}
 	}
 }

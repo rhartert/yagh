@@ -86,10 +86,9 @@ func (h *IntMap[C]) Pop() (Entry[C], bool) {
 		return Entry[C]{}, false
 	}
 	e := h.entries[1]
-	l := h.entries[h.size]
+	h.swap(1, h.size)
 	h.size--
-	if h.size > 0 {
-		h.entries[1] = l
+	if h.size > 1 {
 		h.bubbleDown(1)
 	}
 	return e, true
@@ -101,6 +100,12 @@ func (h *IntMap[C]) Clear() {
 	for ; h.size > 0; h.size -= 1 {
 		h.positions[h.entries[h.size].Elem] = 0
 	}
+}
+
+// Contains returns true if elem is in the map; it returns false otherwise.
+func (h *IntMap[C]) Contains(elem int) bool {
+	p := h.positions[elem]
+	return p != 0 && p <= h.size
 }
 
 func (h *IntMap[C]) String() string {

@@ -23,6 +23,10 @@ type Entry[C cmp.Ordered] struct {
 	Cost C
 }
 
+func (e Entry[C]) String() string {
+	return fmt.Sprintf("%d:%v", e.Elem, e.Cost)
+}
+
 type IntMap[C cmp.Ordered] struct {
 	size      int
 	positions []int
@@ -109,16 +113,18 @@ func (h *IntMap[C]) Contains(elem int) bool {
 }
 
 func (h *IntMap[C]) String() string {
-	bf := strings.Builder{}
-	bf.WriteString("IntMap[")
-	for i := 1; i <= h.size; i++ {
-		bf.WriteString(fmt.Sprintf("%d:%v", h.entries[i].Elem, h.entries[i].Cost))
-		if i != h.size {
-			bf.WriteByte(' ')
-		}
+	if h.Size() == 0 {
+		return "IntMap[]"
 	}
-	bf.WriteByte(']')
-	return bf.String()
+	sb := strings.Builder{}
+	sb.WriteString("IntMap[")
+	sb.WriteString(h.entries[1].String())
+	for i := 2; i <= h.size; i++ {
+		sb.WriteByte(' ')
+		sb.WriteString(h.entries[i].String())
+	}
+	sb.WriteByte(']')
+	return sb.String()
 }
 
 func (h *IntMap[C]) bubbleUp(i int) {

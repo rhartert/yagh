@@ -5,6 +5,8 @@ import "fmt"
 func ExampleNew() {
 	m := New[float64](5)
 
+	fmt.Println(m)
+
 	// Add a few elements.
 	m.Put(2, 0.1)
 	m.Put(1, 0.2)
@@ -14,6 +16,7 @@ func ExampleNew() {
 	fmt.Println(m)
 
 	// Output:
+	// IntMap[]
 	// IntMap[2:0.1 1:0.2 4:0.3 3:0.4]
 }
 

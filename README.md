@@ -1,6 +1,7 @@
 # Yet Another Go Heap (YAGH)
 
 [![Go Reference](https://pkg.go.dev/badge/github.com/rhartert/yagh.svg)](https://pkg.go.dev/github.com/rhartert/yagh)
+[![Go Report Card](https://goreportcard.com/badge/github.com/rhartert/yagh)](https://goreportcard.com/report/github.com/rhartert/yagh)
 
 YAGH is a small Go package that provides its clients with the `IntMap[C]` data 
 structure, a priority map that orders integers from 0 to N-1 by non-decreasing 
@@ -42,11 +43,11 @@ This should output something similar to this:
 goos: darwin
 goarch: arm64
 pkg: github.com/rhartert/yagh
-BenchmarkIntMapSort-8  1063  1092887 ns/op  0 B/op       0 allocs/op
-BenchmarkGoHeapSort-8   672  1802387 ns/op  320001 B/op  20000 allocs/op
+BenchmarkIntMapSort-8  1030  1082324 ns/op       0 B/op      0 allocs/op
+BenchmarkGoHeapSort-8   712  1687413 ns/op  320000 B/op  20000 allocs/op
 ```
 
-On average, YAGH achieves a 1.64x [speed-up] compared to Go's standard heap. 
+On average, YAGH achieves a 1.56x [speed-up] compared to Go's standard heap. 
 Also, note that zero allocs are made in `BenchmarkIntMapSort` (i.e. the heapsort 
 using YAGH). 
 

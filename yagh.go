@@ -35,7 +35,7 @@ type IntMap[C cmp.Ordered] struct {
 
 // New initializes and returns a new instance of IntMap to handle elements
 // ranging from 0 to n-1, where n is the capacity of the map. This constructor
-// pre-allocates the necessary memory to accomodate up to n elements, thus
+// pre-allocates the necessary memory to accommodate up to n elements, thus
 // ensuring that no further memory allocation will be required during the
 // instance's lifetime.
 func New[C cmp.Ordered](n int) *IntMap[C] {
@@ -85,7 +85,7 @@ func (h *IntMap[C]) Put(elem int, cost C) bool {
 
 	// If the element is already in the heap, change its cost and reposition it
 	// in the heap.
-	if p := pos / 2; p >= 1 && h.less(pos, p) {
+	if pos >= 2 && h.less(pos, pos/2) {
 		h.bubbleUp(pos)
 	} else {
 		h.bubbleDown(pos)
@@ -112,7 +112,7 @@ func (h *IntMap[C]) Pop() (Entry[C], bool) {
 // Clear removes all the elements contained in the IntMap in O(Size). It is more
 // efficient to call Clear than Pop repeatedly.
 func (h *IntMap[C]) Clear() {
-	for ; h.size > 0; h.size -= 1 {
+	for ; h.size > 0; h.size-- {
 		h.positions[h.entries[h.size].Elem] = 0
 	}
 }

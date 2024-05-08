@@ -150,3 +150,18 @@ func ExampleIntMap_Capa() {
 	// 2
 	// 5
 }
+
+func ExampleIntMap_GetCost() {
+	m := New[int](5)
+
+	fmt.Println(m.GetCost(2))
+	m.Put(2, 2)
+	fmt.Println(m.GetCost(2))
+	m.Pop()
+	fmt.Println(m.GetCost(2))
+
+	// Output:
+	// 0
+	// 2
+	// 2
+}

@@ -124,6 +124,13 @@ func (h *IntMap[C]) Pop() (Entry[C], bool) {
 	return e, true
 }
 
+// GetCost returns the last cost that was assigned to elem (no matter if elem
+// is still contained in the IntMap or not). It returns the cost's zero value
+// if the element was never added to the IntMap.
+func (h *IntMap[C]) GetCost(elem int) C {
+	return h.entries[h.positions[elem]].Cost
+}
+
 // Clear removes all the elements contained in the IntMap in O(Size). It is more
 // efficient to call Clear than Pop repeatedly.
 func (h *IntMap[C]) Clear() {

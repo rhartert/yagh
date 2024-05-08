@@ -64,7 +64,7 @@ func (h *IntMap[C]) Capa() int {
 	return len(h.positions)
 }
 
-// GrowBy increases the IntMap's capacity to accomodate k new elements. This
+// GrowBy increases the IntMap's capacity to accommodate k new elements. This
 // method does nothing if k is not positive.
 func (h *IntMap[C]) GrowBy(k int) {
 	capa := len(h.positions)

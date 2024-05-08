@@ -120,3 +120,33 @@ func ExampleIntMap_Clear() {
 	// Output:
 	// 0
 }
+
+func ExampleIntMap_GrowBy() {
+	m := New[float64](2)
+
+	m.Put(1, 0.1)
+	m.GrowBy(3)
+	m.Put(2, 0.2)
+	m.Put(3, 0.3)
+
+	fmt.Println(m)
+
+	// Output:
+	// IntMap[1:0.1 2:0.2 3:0.3]
+}
+
+func ExampleIntMap_Capa() {
+	m := New[float64](0)
+	fmt.Println(m.Capa())
+
+	m.GrowBy(2)
+	fmt.Println(m.Capa())
+
+	m.GrowBy(3)
+	fmt.Println(m.Capa())
+
+	// Output:
+	// 0
+	// 2
+	// 5
+}

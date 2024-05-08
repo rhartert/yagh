@@ -59,6 +59,21 @@ func (h *IntMap[C]) Size() int {
 	return h.size
 }
 
+// Capacity returns the capacity of the IntMap.
+func (h *IntMap[C]) Capa() int {
+	return len(h.positions)
+}
+
+// GrowBy increases the IntMap's capacity to accomodate k new elements. This
+// method does nothing if k is not positive.
+func (h *IntMap[C]) GrowBy(k int) {
+	capa := len(h.positions)
+	for i := capa; i < capa+k; i++ {
+		h.positions = append(h.positions, i+1)
+		h.entries = append(h.entries, Entry[C]{Elem: i})
+	}
+}
+
 // Min returns the entry with the smallest cost. The second returned value (ok)
 // is a bool that indicates whether a valid entry was found. If the map is
 // empty, it returns false, along with a zero value for the entry.
